@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <script src="./script.js"></script>
+    
     <link rel="stylesheet" href="./styles.css"/>
 </head>
 <body>
@@ -22,11 +22,11 @@
                 <button class="num">7</button>
                 <button class="num">8</button>
                 <button class="num">9</button>
-            </div>
-            <div id="equal">
                 <button class="num">0</button>
+                <button class="dp">.</button>
                 <button class="eq">=</button>
             </div>
+           
         </div>
         <div id="operators">
             <button class="op">+</button>
@@ -36,6 +36,139 @@
         </div>
     </div>
     <button id="clr">Clear</button>
- </div>   
+    <button id="bks">BackSpace</button>
+ </div> 
+ <script>
+    function add(a,b){
+    return a+b;
+}
+function substract(a,b){
+    return a-b;
+}
+function multiply(a,b){
+    return a*b;
+}
+function divide(a,b){
+    return a/b;
+}
+let firstNumber;
+let secondNumber;
+let operator;
+
+function operate(fn,sn,op){
+    switch(op){
+        case '+':
+            return add(fn,sn);
+            break;
+            case '-':
+                return substract(fn,sn);
+                break;
+                case '*':
+                    return multiply(fn,sn);
+                    break;
+                    case '/':
+                        return divide(fn,sn);
+                        break;
+                        default:return null;
+    }
+}
+function countDecimalDigits(number) {
+  const decimalPart = number.toString().split('.')[1];
+  return decimalPart ? decimalPart.length : 0;
+}
+let operation=[];
+let save;
+let num='';
+    let display=document.createElement('p');
+    let scr=document.querySelector('#screen');
+    display.textContent='';
+  let  oper='';
+    let numbers=document.querySelectorAll('.num');
+    numbers.forEach(number=>
+       { number.addEventListener('click',()=>{
+    oper=oper+number.textContent;
+    num=num+number.textContent;
+    display.textContent=num;
+    scr.replaceChildren();
+    scr.appendChild(display);
+        })
+    })
+    let decimal=document.querySelector('.dp');
+    decimal.addEventListener('click',()=>{
+const dc=num.split('.');
+if(dc.length==1){
+    num=num+'.';
+    oper=oper+'.';
+    display.textContent=num;
+    scr.replaceChildren();
+    scr.appendChild(display);
+
+}
+    })
+    let ops=document.querySelectorAll('.op');
+ops.forEach(op=>{
+    op.addEventListener('click',()=>{
+        num='';
+        oper=oper+' '+op.textContent+' ';
+         operation=oper.split(' ');
+         if(operation.length>3){
+            firstNumber=Number(operation[0]);
+secondNumber=Number(operation[2]);
+operator=operation[1];
+save=operate(firstNumber,secondNumber,operator);
+if(countDecimalDigits(save)>7){
+    save=save.toFixed(7);
+}
+oper=`${save}`+' '+op.textContent+' ';
+display.textContent=`${save}`;
+scr.replaceChildren();
+    scr.appendChild(display);
+         }
+    })
+})
+let equal=document.querySelector('.eq');
+
+equal.addEventListener('click',()=>{
+    operation=oper.split(' ');
+    if(Number(operation[operation.length-1])==NaN){
+        display.textContent='ERROR';
+    }
+    else{
+firstNumber=Number(operation[0]);
+secondNumber=Number(operation[2]);
+operator=operation[1];
+save=operate(firstNumber,secondNumber,operator);
+if(countDecimalDigits(save)>7){
+    save=save.toFixed(7);
+}
+display.textContent=`${save}`;
+oper=`${save}`;
+num=`${save}`;
+}
+
+scr.replaceChildren();
+    scr.appendChild(display);
+   
+    })
+let clear=document.querySelector('#clr') ;
+clear.addEventListener('click',()=>{
+    display.textContent='';
+    scr.replaceChildren();
+    oper='';
+    num='';
+}) 
+let back=document.querySelector('#bks');
+bks.addEventListener('click',()=>{
+    let oper1=oper.split(' ');
+        num='';
+    oper1[oper1.length-1]='';
+    oper=oper1.join(' ');
+    
+    display.textContent='';
+    scr.replaceChildren();
+    
+    
+})  
+    </script>  
 </body>
 </html>

@@ -30,7 +30,16 @@ function operate(fn,sn,op){
                         default:return null;
     }
 }
-firstNumber=3;
-secondNumber=4;
-operator='*';
-console.log(operate(firstNumber,secondNumber,operator));
+let display=document.createElement('p');
+let scr=document.querySelector('#screen');
+display.textContent='';
+let numbers=document.querySelectorAll('.num');
+numbers.forEach(number=>
+   { number.addEventListener('click',()=>{
+    prompt('hey');
+display.textContent='afaf';//display+number.textContent;
+prompt('hey');
+scr.replaceChildren();
+scr.appendChild(display);
+    })
+})
